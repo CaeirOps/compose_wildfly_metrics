@@ -4,8 +4,7 @@ Este projeto contém um "compose-file" e todos os arquivos necessários para rea
 
 > Foram realizados testes com as versões 18.x.x,19.x.x,20.x.x,21.x.x,22.x.x
 
-> A versão 23.x.x possui uma versão superior do framework MicroProfile, sendo assim algumas métricas foram alteradas, porém o projeto deve atender à versão salvo algumas métricas que precisarão de revisão.
-{.is-warning}
+> :warning: A versão 23.x.x possui uma versão superior do framework MicroProfile, sendo assim algumas métricas foram alteradas, porém o projeto deve atender à versão salvo algumas métricas que precisarão de revisão.
 
 ---
 
@@ -33,3 +32,4 @@ docker-compose up -d
 
 6. O acesso aos serviços do container é realizado pela porta default de cada um que consta no arquivo "docker-compose.yml";
 
+> :warning: Para que as métricas de Data Source (DS) sejam coletadas, as estatísticas de cada um devem estar habilitadas na instância do Wildfly.
