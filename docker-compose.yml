@@ -1,0 +1,47 @@
+version: '3.3'
+
+# networks
+networks:
+  prometheus:
+    driver: overlay
+
+# volume
+volumes:
+  prometheus:
+  grafana:
+
+services:
+  # prometheus service
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - prometheus:/prometheus
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.external-url=https://prometheus.domain.test'
+    networks:
+      - prometheus
+    restart: always
+
+  # grafana service
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./configs/grafana.ini:/etc/grafana/grafana.ini
+      - ./configs/provisioning/:/etc/grafana/provisioning/
+      - ./configs/grafana-dashboards/:/var/lib/grafana/dashboards/
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SERVER_DOMAIN=grafana.localdomain.local
+      - GF_SERVER_ROOT_URL=https://perf.domain.test
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,blackmirror1-statusbygroup-panel,farski-blendstat-panel
+    networks:
+      - prometheus
+    restart: always
